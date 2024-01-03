@@ -37,9 +37,9 @@ export async function main(ns) {
       }
     }
     if (!skipHack) {
-      await ns.sleep(10000);
-      // const hackables = JSON.parse(ns.read('hackables.txt'));
-      // await ns.hack(hackables[Math.floor(Math.random() * hackables.length)]);
+      // await ns.sleep(10000);
+      const hackables = JSON.parse(ns.read('hackables.txt'));
+      await ns.hack(hackables[Math.floor(Math.random() * hackables.length)]);
     }
   }
 }

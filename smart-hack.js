@@ -14,6 +14,7 @@ export async function main(ns) {
       await ns.weaken(target);
     } else if (ns.getServerMoneyAvailable(target) < moneyThresh) {
       await ns.grow(target);
+      await ns.hack(target);
     } else {
       await ns.hack(target);
     }
