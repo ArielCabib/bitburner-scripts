@@ -7,17 +7,26 @@ export async function main(ns) {
       return;
     }
     const target = servers[Math.floor(Math.random() * servers.length)];
-    const moneyThresh = ns.getServerMaxMoney(target);
-    const securityThresh = ns.getServerMinSecurityLevel(target);
     
+    const securityThresh = ns.getServerMinSecurityLevel(target);
+
     if (ns.getServerSecurityLevel(target) > securityThresh) {
       await ns.weaken(target);
-    } else if (ns.getServerMoneyAvailable(target) < moneyThresh) {
-      await ns.grow(target);
-      await ns.hack(target);
+      if (ns.getServerSecurityLevel(target) < securityThresh * 1.01) {
+        await grow_or_hack(ns, target);
+      }
     } else {
-      await ns.hack(target);
+      await grow_or_hack(ns, target);
     }
-    
+  }
+}
+
+async function grow_or_hack(ns, target) {
+  const moneyThresh = ns.getServerMaxMoney(target);
+  if (ns.getServerMoneyAvailable(target) < moneyThresh) {
+    await ns.grow(target);
+    await ns.hack(target);
+  } else {
+    await ns.hack(target);
   }
 }
